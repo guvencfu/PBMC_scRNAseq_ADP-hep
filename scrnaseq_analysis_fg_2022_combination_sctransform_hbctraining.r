@@ -924,7 +924,12 @@ pbmc.markers %>%
 
 scaled.seurat <- ScaleData(seurat_integrated, verbose = F)
 
-DoHeatmap(scaled.seurat, features = top10$gene, label = seurat_integrated@meta.data[["integrated_snn_res.0.4"]]) + NoLegend()
+DoHeatmap(scaled.seurat, features = top10$gene) + NoLegend()
+
+#variable features across all clusters heatmap
+
+DefaultAssay(seurat_integrated) <- "integrated"
+variable.heatmap <- DoHeatmap(seurat_integrated, features = VariableFeatures(seurat_integrated)[1:75], cells = 1:1000, size = 3, angle = 90) + NoLegend()
 
 
 #heatmaps of DEG in all clusters
